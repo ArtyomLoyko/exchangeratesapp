@@ -1,7 +1,8 @@
 import Axios from 'axios';
+import {SERVER} from './common'
 
 const authApi = Axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER}/auth`,
+  baseURL: `${SERVER}/auth`,
 });
 
 export const register = async ( email, password, name ) => {

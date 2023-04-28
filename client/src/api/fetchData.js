@@ -1,7 +1,8 @@
 import Axios from 'axios';
+import {SERVER} from './common'
 
 const converterApi = Axios.create({
-  baseURL: `${process.env.REACT_APP_SERVER}/converter`,
+  baseURL: `${SERVER}/converter`,
 });
 
 export const fetchRates = async (currencyOne) => {
