@@ -10,14 +10,12 @@ const ConverterDisplay = ({
 }) => {
   return (
     <Box textAlign="right">
+      <Text>Your rate:</Text>
       <Text fontSize="lg" fontWeight="bold">
-        {amount} {currencyOne}
-      </Text>
-      <Text fontSize="2xl" fontWeight="bold" color="purple.500">
-        {convertedAmount} {currencyTwo}
+        {amount} {currencyOne} = {convertedAmount} {currencyTwo}
       </Text>
       <Text fontSize="xs" color="gray.500">
-        Market rates collected - {date} {time}
+        Last updated {date} {time}
       </Text>
     </Box>
   );

@@ -1,20 +1,19 @@
-import { FormLabel, Input } from '@chakra-ui/react';
+import TextField from '@mui/material/TextField';
 
-const ConverterInput = ({ value, onAmountChange }) => {
+const ConverterInput = ({ label, value, onAmountChange, disabled }) => {
   return (
-    <>
-      <FormLabel htmlFor="amount" fontWeight="bold" color="purple.500">
-        Amount
-      </FormLabel>
-      <Input
-        id="amount"
-        size="lg"
-        type="number"
-        min={0}
-        value={value}
-        onChange={(e) => onAmountChange(e.target.value)}
-      />
-    </>
+    <TextField
+      id={label}
+      label={label}
+      type="number"
+      min={0}
+      value={value}
+      onChange={(e) => onAmountChange(e.target.value)}
+      disabled={disabled}
+      InputLabelProps={{
+        shrink: true,
+      }}
+    />
   );
 };
 

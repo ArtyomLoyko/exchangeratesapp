@@ -31,7 +31,7 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <div className='container'>
+      <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <Routes>
           <Route
             exact

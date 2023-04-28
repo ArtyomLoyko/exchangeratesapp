@@ -1,10 +1,20 @@
+import { useCallback } from 'react';
 import { toast } from 'react-toastify'
 import { useCurrency } from '../../hooks/useCurrency'
-import { Text, Spinner, Box, Grid, GridItem } from '@chakra-ui/react'
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import CircularProgress from '@mui/material/CircularProgress';
+import Button from '@mui/material/Button';
+
 import Option from './Option'
 import Input from './Input'
-import Display from './Display'
 import TodayRates from './TodayRates'
+import Rate from './Rate'
 
 const Converter = ({ setLoggedIn }) => {
   const {
@@ -24,7 +34,7 @@ const Converter = ({ setLoggedIn }) => {
     currencyList,
   } = useCurrency()
 
-  const logout = async (e) => {
+  const logOut = useCallback(async (e) => {
     e.preventDefault()
     try {
       localStorage.removeItem('token')
@@ -33,86 +43,75 @@ const Converter = ({ setLoggedIn }) => {
     } catch (err) {
       console.error(err.message)
     }
-  }
+  }, [setLoggedIn])
 
   if (isError)
     return (
-      <Text fontWeight='bold' fontSize='3xl' color='red' my='10'>
+      <Typography fontSize={18} fontWeight='bold'>
         Something has gone wrong
-      </Text>
+      </Typography>
     )
 
   if (isLoading)
     return (
-      <Spinner
-        margin='auto 0'
-        size='xl'
-        thickness='4px'
-        speed='0.6s'
-        color='purple.500'
-        emptyColor='purple.200'
-      />
+      <CircularProgress />
     )
+
   return (
-    <Box width={{ base: '90vw', sm: '65vw' }} margin='0 auto'>
-      <button onClick={(e) => logout(e)} className='btn btn-primary'>
-        Logout
-      </button>
-      <Grid
-        templateColumns='repeat(5, 1fr)'
-        templateRows='repeat(2, 1fr)'
-        padding={{ base: '6', sm: '10' }}
-        gap='1rem'
-        backgroundColor='white'
-        borderRadius='lg'
-      >
-        <GridItem
-          colSpan={{ base: 5, sm: 2 }}
-          justifySelf='center'
-          alignSelf='center'
-        >
-          <Option
-            symbol={symbolsData.data}
-            currencyList={currencyList}
-            onCurrencyChange={setCurrencyOne}
-            currency={currencyOne}
-          />
-        </GridItem>
-        <GridItem
-          display={{ base: 'none', sm: 'block' }}
-          colSpan={1}
-          justifySelf='center'
-          alignSelf='center'
-        >
-          {/* <RepeatIcon boxSize="2rem" color="purple.300" /> */}
-        </GridItem>
-        <GridItem
-          colSpan={{ base: 5, sm: 2 }}
-          justifySelf='center'
-          alignSelf='center'
-        >
-          <Option
-            symbol={symbolsData.data}
-            currencyList={currencyList}
-            onCurrencyChange={setCurrencyTwo}
-            currency={currencyTwo}
-          />
-        </GridItem>
-        <GridItem colSpan={2}>
-          <Input value={amount} onAmountChange={setAmount} />
-        </GridItem>
-        <GridItem colSpan={3} justifySelf='right' alignSelf='right'>
-          <Display
-            amount={amount}
-            currencyOne={currencyOne}
-            currencyTwo={currencyTwo}
-            convertedAmount={convertedAmount}
-            date={date}
-            time={time}
-          />
-        </GridItem>
-      </Grid>
-      <TodayRates currencyOne={currencyOne} ratesData={ratesData.data} />
+    <Box
+      sx={{
+        marginTop: 5,
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Container sx={{position: 'relative'}}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={8}>
+            <Card
+              sx={{ height: '100%' }}
+            >
+              <CardHeader
+                title={'Currency converter'}
+                titleTypographyProps={{ color: 'white', fontSize: 18 }}
+                sx={{ backgroundColor: 'rgb(25, 118, 210)' }}
+              >
+              </CardHeader>
+              <CardContent>
+                <Grid container spacing={5} sx={{padding: '20px 70px'}}>
+                  <Grid item xs={6} md={3}>
+                    <Input label='From' value={amount} onAmountChange={setAmount} />
+                  </Grid>
+                  <Grid item xs={6} md={9}>
+                    <Option
+                      symbol={symbolsData.data}
+                      currencyList={currencyList}
+                      onCurrencyChange={setCurrencyOne}
+                      currency={currencyOne}
+                    />
+                  </Grid>
+                  <Grid item xs={6} md={3}>
+                    <Input label='To' value={convertedAmount} disabled />
+                  </Grid>
+                  <Grid item xs={6} md={9}>
+                    <Option
+                      symbol={symbolsData.data}
+                      currencyList={currencyList}
+                      onCurrencyChange={setCurrencyTwo}
+                      currency={currencyTwo}
+                    />
+                  </Grid>
+                </Grid>
+                <Rate currencyOne={currencyOne} currencyTwo={currencyTwo} ratesData={ratesData.data} date={date} time={time} />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <TodayRates currencyOne={currencyOne} ratesData={ratesData.data} />
+          </Grid>
+        </Grid>
+        <Button sx={{position: 'absolute', top: '-40px', right: '30px'}} variant="text" onClick={logOut}>Log Out</Button>
+      </Container>
     </Box>
   )
 }

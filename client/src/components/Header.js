@@ -1,18 +1,20 @@
-import { Box, Text } from '@chakra-ui/react';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 
-const ConverterHeader = () => {
+const Header = () => {
   return (
     <Box
-      textAlign="center"
-      // color="white"
-      margin={{ base: '10', sm: '16' }}
-      marginBottom="10"
+      sx={{
+        marginTop: 5,
+        display: 'flex',
+        justifyContent: 'center',
+      }}
     >
-      <Text fontWeight="bold" fontSize={{ base: '2xl', sm: '3xl' }}>
-        Currency Converter & Exchange Rates
-      </Text>
+      <Typography component="h1" variant="h3" textAlign={'center'}>
+        Currency Converter & Exchange Rates App
+      </Typography>
     </Box>
   );
 };
 
-export default ConverterHeader;
+export default Header;

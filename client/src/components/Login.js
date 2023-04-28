@@ -3,6 +3,15 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { logIn } from '../api/auth'
 
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Avatar from '@mui/material/Avatar';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 const Login = ({ setLoggedIn }) => {
   const [inputs, setInputs] = useState({
     email: '',
@@ -33,27 +42,62 @@ const Login = ({ setLoggedIn }) => {
   }
 
   return (
-    <>
-      <h1 className='mt-5 text-center'>Login</h1>
-      <form onSubmit={onSubmitForm}>
-        <input
-          type='text'
-          name='email'
-          value={email}
-          onChange={(e) => onChange(e)}
-          className='form-control my-3'
-        />
-        <input
-          type='password'
-          name='password'
-          value={password}
-          onChange={(e) => onChange(e)}
-          className='form-control my-3'
-        />
-        <button className='btn btn-success btn-block'>Submit</button>
-      </form>
-      <Link to='/register'>register</Link>
-    </>
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 5,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={onSubmitForm} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="email"
+            label="Email Address"
+            name="email"
+            autoComplete="email"
+            onChange={(e) => onChange(e)}
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            autoComplete="current-password"
+            onChange={(e) => onChange(e)}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item>
+              <Link to='/register' variant="body2">
+                {"Don't have an account? Sign Up"}
+              </Link>
+            </Grid>
+          </Grid>
+        </Box>
+      </Box>
+    </Container>
   )
 }
 

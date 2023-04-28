@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { fetchRates, fetchSymbols } from '../api/fetchData';
 
 export const useCurrency = () => {
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState(1000);
   const [currencyOne, setCurrencyOne] = useState('USD');
   const [currencyTwo, setCurrencyTwo] = useState('ILS');
 
@@ -13,10 +13,7 @@ export const useCurrency = () => {
         queryKey: ['rates', currencyOne],
         queryFn: () => fetchRates(currencyOne),
         staleTime: Infinity,
-        select: ({ data, /* timestamp */ }) => {
-          // return { data, /* timestamp */ };
-          return data;
-        },
+        select: ({ data }) => data,
         keepPreviousData: true,
       },
       {
@@ -31,12 +28,10 @@ export const useCurrency = () => {
   const isLoading = [ratesData, symbolsData].some((query) => query.isLoading);
   const isError = [ratesData, symbolsData].some((query) => query.isError);
 
-  const convertedAmount = (ratesData.data?.[currencyTwo] * amount).toFixed(
-    2
-  );
+  const convertedAmount = Math.floor(ratesData.data?.[currencyTwo] * amount * 100) / 100
 
-  const date = new Date(ratesData.data?.date).toLocaleDateString();
-  const time = new Date(ratesData.data?.timestamp).toLocaleTimeString('en-US');
+  const date = new Date(ratesData.dataUpdatedAt).toLocaleDateString();
+  const time = new Date(ratesData.dataUpdatedAt).toLocaleTimeString('en-US');
 
   const currencyList = symbolsData.data ? Object.keys(symbolsData.data) : {};
 

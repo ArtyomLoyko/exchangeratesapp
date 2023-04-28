@@ -1,5 +1,6 @@
-import { /* Avatar, */ Flex, Select } from '@chakra-ui/react';
 // import { useFlags } from '../../hooks/useFlags';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const ConverterOption = ({
   symbol,
@@ -9,21 +10,17 @@ const ConverterOption = ({
 }) => {
   // const { flagUrl } = useFlags(currency);
   return (
-    <Flex gap="1rem" shadow="md" padding="1rem" borderRadius="lg">
-      {/* <Avatar src={flagUrl} size="xs" /> */}
-      <Select
-        variant="unstyled"
-        size="md"
-        defaultValue={currency}
-        onChange={(e) => onCurrencyChange(e.target.value)}
-      >
-        {currencyList.map((currency) => (
-          <option key={currency} value={currency}>
-            {currency} - {symbol[currency].name}
-          </option>
-        ))}
-      </Select>
-    </Flex>
+    <Select
+      labelId="demo-simple-select-label"
+      id="demo-simple-select"
+      defaultValue={currency}
+      onChange={(e) => onCurrencyChange(e.target.value)}
+      style={{ width: '100%' }} 
+    >
+      {currencyList.map((currency) => (
+        <MenuItem key={currency} value={currency}>{currency} - {symbol[currency].name}</MenuItem>
+      ))}
+    </Select>
   );
 };
 
