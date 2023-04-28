@@ -6,11 +6,11 @@ dotenv.config({
   path: '../.env'
 })
 
+app.use(express.static(path.join(__dirname, '../client/build')))
+
 //middleware
 app.use(cors());
 app.use(express.json());
-
-app.use(express.static(path.join(__dirname, '../client/build')))
 
 //routes
 app.use("/auth", require("./routes/auth"));
